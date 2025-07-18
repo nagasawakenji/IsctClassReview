@@ -1,14 +1,14 @@
 spring.application.name=IsctClassReview
 spring.mail.host=smtp.example.com
 spring.mail.port=587
-spring.mail.username=your@account
-spring.mail.password=secret
+spring.mail.username=${MAIL_USERNAME}
+spring.mail.password=${MAIL_PASSWORD}
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 
 spring.datasource.url=jdbc:postgresql://localhost:5432/isct_syllabus_db
-spring.datasource.username=app_user
-spring.datasource.password=postgre
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DP_PASSWORD}
 
 spring.datasource.driver-class-name=org.postgresql.Driver
 
@@ -16,4 +16,4 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 
-app.upload.dir=/path/to/your/upload/folder
+app.upload.dir=${UPLOAD_DIR:/default/path}
