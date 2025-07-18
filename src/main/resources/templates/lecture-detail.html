@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- head フラグメントを呼び出し -->
+<head th:replace="layout :: head(${lecture.title} + ' - Lecture Detail')"></head>
+<body>
+<!-- header フラグメントを呼び出し -->
+<header th:replace="layout :: header"></header>
+
+<!-- ページ固有のコンテンツ -->
+<main>
+    <section th:fragment="content">
+        <!-- Lecture 基本情報 -->
+        <h1 th:text="${lecture.title}">Lecture Title</h1>
+        <p>Code: <span th:text="${lecture.code}">CODE</span></p>
+        <p>URL: <a th:href="${lecture.url}" th:text="${lecture.url}">Lecture URL</a></p>
+
+        <!-- 添付ファイル一覧 -->
+        <h2>Attachments (<span th:text="${attachments.size()}">0</span>)</h2>
+        <ul>
+            <li th:each="att : ${attachments}">
+                <a th:href="@{${att.filePath}}"
+                   th:text="${#strings.substringAfterLast(att.filePath, '/')}">filename.ext</a>
+                <em th:text="${#temporals.format(att.createdAt, 'yyyy-MM-dd HH:mm')}"></em>
+            </li>
+            <li th:if="${attachments.empty}">No attachments available.</li>
+        </ul>
+
+        <!-- レビュー一覧 -->
+        <h2>Reviews (<span th:text="${reviews.size()}">0</span>)</h2>
+        <ul>
+            <li th:each="rev : ${reviews}">
+                <strong th:text="${rev.user.displayName}">User</strong>
+                <span th:text="'Rating: ' + rev.rating"></span>
+                <p th:text="${rev.comment}">Comment text</p>
+                <em th:text="${#temporals.format(rev.createdAt, 'yyyy-MM-dd HH:mm')}"></em>
+            </li>
+            <li th:if="${reviews.empty}">No reviews yet.</li>
+        </ul>
+
+        <!-- 認証ユーザーのみレビュー／アップロードフォームを表示 -->
+        <sec:authorize access="isAuthenticated()">
+            <!-- レビュー投稿フォーム -->
+            <h2>Post a Review</h2>
+            <form th:action="@{/lectures/{lectureId}/review(lectureId=${lecture.id})}"
+                  method="post" th:object="${reviewForm}">
+                <!-- ... -->
+            </form>
+            <!-- ファイルアップロードフォーム -->
+            <h2>Upload Attachment</h2>
+            <form th:action="@{/lectures/{lectureId}/attachments(lectureId=${lecture.id})}"
+                  method="post" enctype="multipart/form-data" th:object="${attachmentForm}">
+                <!-- ... -->
+            </form>
+        </sec:authorize>
+        <sec:authorize access="isAnonymous()">
+            <p><a th:href="@{/login}">Login</a> or <a th:href="@{/register}">register</a> to post reviews or attachments.</p>
+        </sec:authorize>
+    </section>
+</main>
+
+<!-- footer フラグメントを呼び出し -->
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- src/main/resources/templates/login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>ログイン</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>ログイン</h1>
+<form th:action="@{/login}" method="post">
+  <div>
+    <label>ユーザー名: <input type="text" name="username" /></label>
+  </div>
+  <div>
+    <label>パスワード: <input type="password" name="password" /></label>
+  </div>
+  <div>
+    <button type="submit">ログイン</button>
+  </div>
+</form>
+<p th:if="${param.error}">ログイン失敗しました。再度お試しください。</p>
+<p th:if="${param.logout}">ログアウトしました。</p>
+</body>
+</html>

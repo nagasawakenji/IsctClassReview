@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout :: head(~{::title='ホーム'})}" />
+</head>
+<body>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<th:block th:replace="~{layout :: header}" />
+
+<section th:fragment="content">
+    <h2 class="text-2xl mb-4">学院一覧</h2>
+    <div class="grid grid-cols-2 gap-4">
+        <div th:each="major : ${majors}">
+            <h3 class="text-xl font-semibold mb-2" th:text="${major.name}">理学院</h3>
+            <div class="flex flex-col gap-2">
+                <div th:each="course : ${major.courses}">
+                    <a th:href="@{/courses/{id}(id=${course.id})}"
+                       th:text="${course.name}"
+                       class="block px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:replace="~{layout :: footer}" />
+</div>
+</body>
+</html>

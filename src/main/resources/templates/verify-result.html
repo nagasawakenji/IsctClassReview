@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('登録完了')"></head>
+<body>
+<header th:replace="layout :: header"></header>
+<main>
+  <section th:fragment="content">
+    <h1>登録完了</h1>
+    <p>会員登録が完了しました。<a th:href="@{/login}">ログイン</a>ページへお進みください。</p>
+  </section>
+</main>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

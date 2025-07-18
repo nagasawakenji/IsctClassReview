@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:fragment="head(~{::title})">
+  <meta charset="UTF-8">
+  <title th:text="${title}">MyApp</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+  <!-- ヘッダー -->
+  <header th:fragment="header">
+    <nav class="nav-bar">
+      <a th:href="@{/}" class="nav-item">ホーム</a>
+      <sec:authorize access="!isAuthenticated()">
+        <a th:href="@{/login}" class="btn">ログイン</a>
+        <a th:href="@{/register}" class="btn">会員登録</a>
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
+        <span class="nav-item" th:text="${#authentication.name}">ユーザー名</span>
+        <a th:href="@{/logout}"
+           th:onclick="|event.preventDefault();document.getElementById('logoutForm').submit();|"
+           class="btn">ログアウト</a>
+        <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;">
+          <input type="hidden"
+                 th:if="${_csrf != null}"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}" />
+        </form>
+      </sec:authorize>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main th:fragment="content">
+    <!-- 各ページ側で th:insert/replace される -->
+  </main>
+
+  <!-- フッター -->
+  <footer th:fragment="footer">
+    <small>&copy; 2025 MyApp</small>
+  </footer>
+
+</div>
+</body>
+</html>
