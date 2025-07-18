@@ -3,4 +3,4 @@
 .DS_Store
 Thumbs.db
 *.log
-src/maim/resources/application.properties
+src/main/resources/application.properties
