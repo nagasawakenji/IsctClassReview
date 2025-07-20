@@ -35,7 +35,7 @@ public class CourseController {
         Course course = courseRepo.findById(courseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        List<Lecture> lectures = course.getClasses();
+        List<Lecture> lectures = course.getLectures();
 
         List<Object[]> rawCount = reviewRepo.countByLectureRaw(lectures);
         Map<Short, Long> reviewCountMap = rawCount.stream()

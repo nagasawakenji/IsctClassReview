@@ -29,14 +29,14 @@ public class Course {
     private Major major;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lecture> classes = new ArrayList<>();
+    private List<Lecture> lectures = new ArrayList<>();
 
     public Course(String name, String url) {
         this.name = name;
         this.url = url;
     }
 
-    protected Course() {}
+    public Course() {}
 
     public void setId(Short id) {
         this.id = id;
@@ -62,11 +62,11 @@ public class Course {
         return major;
     }
 
-    public void setClasses(List<Lecture> classes) {
-        this.classes = classes;
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
-    public List<Lecture> getClasses() {
-        return classes;
+    public List<Lecture> getLectures() {
+        return lectures;
     }
 }

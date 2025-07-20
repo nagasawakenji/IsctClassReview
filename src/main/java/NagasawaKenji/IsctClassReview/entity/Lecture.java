@@ -41,7 +41,7 @@ public class Lecture {
         this.url = url;
     }
 
-    protected Lecture() {}
+    public Lecture() {}
 
     public void setId(Short id) {
         this.id = id;

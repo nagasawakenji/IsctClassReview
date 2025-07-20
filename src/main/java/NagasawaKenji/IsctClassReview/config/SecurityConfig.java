@@ -18,7 +18,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // 管理APIはADMINロールのみ
-                        .requestMatchers("/api/admin/majors/refresh").permitAll()
+                        .requestMatchers("/api/admin/majors/refresh").hasRole("ADMIN")
                         // それ以外のAPIは認証が必要
                         .requestMatchers("/api/**").authenticated()
                         // 上記以外はすべて公開
