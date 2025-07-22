@@ -14,5 +14,5 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Short> {
     @Query("SELECT COUNT(a) FROM Attachment a WHERE a.lecture.id = :id")
     long countAttachments(@Param("id") Short classId);
 
-    Optional<List<Attachment>> findByLectureId(Short lectureId);
+    List<Attachment> findByLectureId(Short lectureId);
 }

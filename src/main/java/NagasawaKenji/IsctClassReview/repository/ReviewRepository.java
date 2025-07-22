@@ -34,5 +34,5 @@ public interface ReviewRepository extends JpaRepository<Review, Short> {
             """)
     List<Object[]> countByLectureRaw(@Param("lectures") List<Lecture> lectures);
 
-    Optional<List<Review>> findByLectureId(Short lectureId);
+    List<Review> findByLectureId(Short lectureId);
 }

@@ -41,10 +41,8 @@ public class CourseControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
-    private CourseRepository courseRepo;
-    @MockitoBean
-    private ReviewRepository reviewRepo;
+    @MockitoBean private CourseRepository courseRepo;
+    @MockitoBean private ReviewRepository reviewRepo;
 
     @Test
     @DisplayName("DBに存在するcourseIdを受け取った場合、modelに各属性を正しく付与する")

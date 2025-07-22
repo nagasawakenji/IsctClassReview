@@ -20,7 +20,7 @@
         <ul>
             <li th:each="att : ${attachments}">
                 <a th:href="@{${att.filePath}}"
-                   th:text="${#strings.substringAfterLast(att.filePath, '/')}">filename.ext</a>
+                   th:text="${att.filePath.substring(att.filePath.lastIndexOf('/') + 1)}">filename.ext</a>
                 <em th:text="${#temporals.format(att.createdAt, 'yyyy-MM-dd HH:mm')}"></em>
             </li>
             <li th:if="${attachments.empty}">No attachments available.</li>

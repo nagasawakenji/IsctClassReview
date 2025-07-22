@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/lectures")
@@ -48,11 +49,9 @@ public class LectureController {
         Lecture lecture = lectureRepo.findById(lectureId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        List<Review> reviews = reviewRepo.findByLectureId(lectureId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<Review> reviews = reviewRepo.findByLectureId(lectureId);
 
-        List<Attachment> attachments = attachmentRepo.findByLectureId(lectureId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<Attachment> attachments = attachmentRepo.findByLectureId(lectureId);
 
         model.addAttribute("lecture", lecture);
         model.addAttribute("reviews", reviews);

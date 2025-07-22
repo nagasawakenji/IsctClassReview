@@ -50,7 +50,7 @@ public class Attachment {
         this.description = description;
     }
 
-    protected Attachment() {};
+    public Attachment() {};
 
     public void setId(Long id) {
         this.id = id;

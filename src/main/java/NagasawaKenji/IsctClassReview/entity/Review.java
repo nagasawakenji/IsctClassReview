@@ -46,7 +46,7 @@ public class Review {
         this.createdAt = createdAt;
     }
 
-    protected Review() {};
+    public Review() {};
 
     public void setId(Long id) {
         this.id = id;
