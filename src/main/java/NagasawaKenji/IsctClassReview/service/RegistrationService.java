@@ -3,6 +3,7 @@ package NagasawaKenji.IsctClassReview.service;
 
 import NagasawaKenji.IsctClassReview.entity.EmailVerificationToken;
 import NagasawaKenji.IsctClassReview.entity.User;
+import NagasawaKenji.IsctClassReview.exception.NotFoundException;
 import NagasawaKenji.IsctClassReview.repository.EmailVerificationTokenRepository;
 import NagasawaKenji.IsctClassReview.repository.UserRepository;
 import org.slf4j.Logger;
@@ -64,7 +65,7 @@ public class RegistrationService {
 
                     log.error("email_verification_tokensに仮登録情報が存在しませんでした");
 
-                    return new IllegalArgumentException("認証コードが不正です");
+                    return new NotFoundException("認証コードが不正です");
                 });
         if (emailVerificationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
 
