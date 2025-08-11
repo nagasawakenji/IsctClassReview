@@ -8,6 +8,7 @@ import NagasawaKenji.IsctClassReview.entity.Review;
 import NagasawaKenji.IsctClassReview.repository.AttachmentRepository;
 import NagasawaKenji.IsctClassReview.repository.LectureRepository;
 import NagasawaKenji.IsctClassReview.repository.ReviewRepository;
+import NagasawaKenji.IsctClassReview.security.CustomUserDetails;
 import NagasawaKenji.IsctClassReview.service.LectureInteractionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class LectureController {
     public String postReview(@PathVariable Short lectureId,
                              @Valid @ModelAttribute(name = "reviewForm") ReviewForm reviewForm,
                              BindingResult bindingResult,
-                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User principal) {
+                             @AuthenticationPrincipal CustomUserDetails principal) {
         if (bindingResult.hasErrors()) {
             return "lecture-detail";
         }
@@ -83,7 +84,7 @@ public class LectureController {
     public String uploadAttachment(@PathVariable Short lectureId,
                                    @Valid @ModelAttribute(name = "attachmentForm") AttachmentForm attachmentForm,
                                    BindingResult bindingResult,
-                                   @AuthenticationPrincipal org.springframework.security.core.userdetails.User principal
+                                   @AuthenticationPrincipal CustomUserDetails principal
     ) {
 
         if (bindingResult.hasErrors()) {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('アタッチメント一覧')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main>
+  <section th:fragment="content">
+    <h1>あなたのアタッチメント一覧</h1>
+    <ul>
+      <li th:each="att : ${attachments}">
+        <a th:href="@{${att.filePath}}"
+           th:text="${#strings.substring(att.filePath, att.filePath.lastIndexOf('/') + 1)}">
+          ファイル名
+        </a>
+        <form th:action="@{/setting/attachment/{id}(id=${att.id})}" method="post">
+          <input type="hidden" name="_method" value="delete"/>
+          <button type="submit">削除</button>
+        </form>
+      </li>
+      <li th:if="${attachments.empty}">アタッチメントはまだありません。</li>
+    </ul>
+  </section>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

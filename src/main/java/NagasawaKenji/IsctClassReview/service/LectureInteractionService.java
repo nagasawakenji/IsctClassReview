@@ -12,6 +12,7 @@ import NagasawaKenji.IsctClassReview.repository.AttachmentRepository;
 import NagasawaKenji.IsctClassReview.repository.LectureRepository;
 import NagasawaKenji.IsctClassReview.repository.ReviewRepository;
 import NagasawaKenji.IsctClassReview.repository.UserRepository;
+import NagasawaKenji.IsctClassReview.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -54,7 +52,7 @@ public class LectureInteractionService {
     @Transactional
     public void saveAttachment(Short lectureId,
                                AttachmentForm attachmentForm,
-                               org.springframework.security.core.userdetails.User principal) {
+                               CustomUserDetails principal) {
         Lecture lecture = lectureRepo.findById(lectureId)
                 .orElseThrow(() -> new NotFoundException("Lecture not found: " + lectureId));
 
@@ -95,7 +93,7 @@ public class LectureInteractionService {
     @Transactional
     public void saveReview(Short lectureId,
                            ReviewForm reviewForm,
-                           org.springframework.security.core.userdetails.User principal) {
+                           CustomUserDetails principal) {
         Lecture lecture = lectureRepo.findById(lectureId)
                 .orElseThrow(() -> new NotFoundException("Lecture not found: " + lectureId));
 
@@ -108,5 +106,48 @@ public class LectureInteractionService {
                 reviewForm.getComment(),
                 LocalDateTime.now()
         ));
+    }
+
+    @Transactional
+    public void deleteAttachment(CustomUserDetails principal,
+                                 Long attachmentId) {
+        Attachment selectedAttachment = attachmentRepo.findById(attachmentId)
+                .orElseThrow(() -> new NotFoundException("Attachment not found" + attachmentId));
+
+        User user = userRepo.findByUserName(principal.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found: " + principal.getUsername()));
+        User authUser = selectedAttachment.getUser();
+
+        if (!user.getId().equals(authUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "この操作を実行する権限がありません");
+        }
+
+        Path file = Paths.get(selectedAttachment.getFilePath());
+
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException e) {
+            throw new RuntimeException("ファイルの削除に失敗しました: " + file.getFileName(), e);
+        }
+
+        attachmentRepo.delete(selectedAttachment);
+    }
+
+    @Transactional
+    public void deleteReview(CustomUserDetails principal,
+                             Long reviewId) {
+        Review selectedReview = reviewRepo.findById(reviewId)
+                .orElseThrow(() -> new NotFoundException("review not found: " + reviewId));
+
+        User user = userRepo.findByUserName(principal.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found: " + principal.getUsername()));
+        User authUser =selectedReview.getUser();
+
+        if (!user.getId().equals(authUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "この操作を実行する権限がありません");
+        }
+
+        reviewRepo.delete(selectedReview);
+
     }
 }

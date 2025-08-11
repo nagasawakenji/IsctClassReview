@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('設定')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main>
+    <section th:fragment="content">
+        <h1>アカウント設定</h1>
+        <ul>
+            <li><a th:href="@{/setting/review}">レビューの削除</a></li>
+            <li><a th:href="@{/setting/attachment}">アタッチメントの削除</a></li>
+            <li><a th:href="@{/setting/user}">表示名の変更</a></li>
+        </ul>
+    </section>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

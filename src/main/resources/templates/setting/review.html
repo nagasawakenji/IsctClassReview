@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('レビュー一覧')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main>
+  <section th:fragment="content">
+    <h1>あなたのレビュー一覧</h1>
+    <ul>
+      <li th:each="rev : ${reviews}">
+        <strong th:text="${rev.lecture.title}">講義名</strong>
+        <p th:text="${rev.comment}">コメント内容</p>
+        <form th:action="@{/setting/review/{id}(id=${rev.id})}" method="post">
+          <!-- Spring の HiddenHttpMethodFilter を有効にしている前提 -->
+          <input type="hidden" name="_method" value="delete"/>
+          <button type="submit">削除</button>
+        </form>
+      </li>
+      <li th:if="${reviews.empty}">レビューはまだありません。</li>
+    </ul>
+  </section>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

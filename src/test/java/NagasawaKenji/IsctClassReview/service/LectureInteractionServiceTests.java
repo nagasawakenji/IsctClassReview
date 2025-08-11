@@ -12,6 +12,7 @@ import NagasawaKenji.IsctClassReview.repository.AttachmentRepository;
 import NagasawaKenji.IsctClassReview.repository.LectureRepository;
 import NagasawaKenji.IsctClassReview.repository.ReviewRepository;
 import NagasawaKenji.IsctClassReview.repository.UserRepository;
+import NagasawaKenji.IsctClassReview.security.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,12 +49,18 @@ public class LectureInteractionServiceTests {
 
     LectureInteractionService service;
 
-    private final org.springframework.security.core.userdetails.User principal
-            = new org.springframework.security.core.userdetails.User(
-            "テストユーザー",
+    private final User user
+            = new User(
+                    "テストユーザー",
             "testPassword",
-            List.of(() -> "ROLE_STUDENT")
-    );
+            "テストユーザー",
+            LocalDateTime.now(),
+            "test@m.titech.ac.jp"
+            );
+
+    private final CustomUserDetails principal
+            = new CustomUserDetails(user);
+
 
     @BeforeEach
     void setUp() {

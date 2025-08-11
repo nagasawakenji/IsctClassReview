@@ -15,10 +15,8 @@
         <label for="token">認証コード</label>
         <input type="text" id="token" name="token" />
       </div>
-      <!-- グローバルエラー表示 -->
-      <div th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}"
-           th:text="${err}"></p>
+      <div th:if="${error}">
+        <p th:text="${error}"></p>
       </div>
       <button type="submit">確認</button>
     </form>

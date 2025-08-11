@@ -2,6 +2,7 @@ package NagasawaKenji.IsctClassReview.controller;
 
 import NagasawaKenji.IsctClassReview.dto.AttachmentForm;
 import NagasawaKenji.IsctClassReview.dto.ReviewForm;
+import NagasawaKenji.IsctClassReview.security.CustomUserDetails;
 import NagasawaKenji.IsctClassReview.service.LectureInteractionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class LectureInteractionController {
     public ResponseEntity<?> postReview(
             @PathVariable Short lectureId,
             @RequestBody @Valid ReviewForm reviewForm,
-            @AuthenticationPrincipal org.springframework.security.core.userdetails.User principal
+            @AuthenticationPrincipal CustomUserDetails principal
     ) {
 
         lectureInteractionService.saveReview(lectureId, reviewForm, principal);
@@ -41,7 +42,7 @@ public class LectureInteractionController {
     public ResponseEntity<?> postAttachment(
             @PathVariable Short lectureId,
             @RequestBody @Valid AttachmentForm attachmentForm,
-            @AuthenticationPrincipal org.springframework.security.core.userdetails.User principal
+            @AuthenticationPrincipal CustomUserDetails principal
             ) {
 
        lectureInteractionService.saveAttachment(lectureId, attachmentForm, principal);

@@ -4,6 +4,13 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:fragment="head(~{::title})">
   <meta charset="UTF-8">
+  <style>
+    body {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      box-sizing: border-box;
+    }
+  </style>
   <title th:text="${title}">MyApp</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <script th:src="@{/js/main.js}"></script>
@@ -21,7 +28,12 @@
         <a th:href="@{/register}" class="btn">会員登録</a>
       </sec:authorize>
       <sec:authorize access="isAuthenticated()">
-        <span class="nav-item" th:text="${#authentication.name}">ユーザー名</span>
+        <a class="nav-item"
+           th:href="@{/setting}"
+           th:text="${#authentication.principal instanceof T(NagasawaKenji.IsctClassReview.security.CustomUserDetails)
+                      ? #authentication.principal.displayName
+                      : #authentication.name}">
+        </a>
         <a th:href="@{/logout}"
            th:onclick="|event.preventDefault();document.getElementById('logoutForm').submit();|"
            class="btn">ログアウト</a>

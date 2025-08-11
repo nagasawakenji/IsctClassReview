@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('表示名変更')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main>
+  <section th:fragment="content">
+    <h1>表示名の変更</h1>
+    <form th:action="@{/setting/user/rename}" method="post">
+      <label for="displayName">新しい表示名:</label>
+      <input type="text" id="displayName" name="name"
+             th:value="${displayName}" placeholder="表示名を入力"/>
+      <button type="submit">変更</button>
+      <input type="hidden"
+             th:if="${_csrf != null}"
+             th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}"/>
+    </form>
+  </section>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
