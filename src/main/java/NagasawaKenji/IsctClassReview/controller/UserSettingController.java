@@ -60,7 +60,7 @@ public class UserSettingController {
         return "setting/review";
     }
 
-    @DeleteMapping("/setting/review/{reviewId}")
+    @PostMapping("/setting/review/{reviewId}")
     public String discardReview(@AuthenticationPrincipal CustomUserDetails principal,
                                @PathVariable(name = "reviewId") Long reviewId) {
 
@@ -82,7 +82,7 @@ public class UserSettingController {
         return "setting/attachment";
     }
 
-    @DeleteMapping("/setting/attachment/{attachmentId}")
+    @PostMapping("/setting/attachment/{attachmentId}")
     public String discardAttachment(@AuthenticationPrincipal CustomUserDetails principal,
                                     @PathVariable(name = "attachmentId") Long attachmentId) {
         lectureInteractionService.deleteAttachment(principal, attachmentId);
