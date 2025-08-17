@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
 <head th:fragment="head(~{::title})">
   <meta charset="UTF-8">
   <style>
@@ -9,6 +9,18 @@
       padding-left: 1rem;
       padding-right: 1rem;
       box-sizing: border-box;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .nav-bar .anon,
+    .nav-bar .auth {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
   </style>
   <title th:text="${title}">MyApp</title>
@@ -23,16 +35,20 @@
   <header th:fragment="header">
     <nav class="nav-bar">
       <a th:href="@{/}" class="nav-item">ホーム</a>
-      <sec:authorize access="!isAuthenticated()">
+
+      <!-- 未ログインだけ表示 -->
+      <div sec:authorize="isAnonymous()" class="anon">
         <a th:href="@{/login}" class="btn">ログイン</a>
         <a th:href="@{/register}" class="btn">会員登録</a>
-      </sec:authorize>
-      <sec:authorize access="isAuthenticated()">
+      </div>
+
+      <!-- ログイン時だけ表示 -->
+      <div sec:authorize="!isAnonymous()" class="auth">
         <a class="nav-item"
            th:href="@{/setting}"
            th:text="${#authentication.principal instanceof T(NagasawaKenji.IsctClassReview.security.CustomUserDetails)
-                      ? #authentication.principal.displayName
-                      : #authentication.name}">
+                 ? #authentication.principal.displayName
+                 : #authentication.name}">
         </a>
         <a th:href="@{/logout}"
            th:onclick="|event.preventDefault();document.getElementById('logoutForm').submit();|"
@@ -43,7 +59,7 @@
                  th:name="${_csrf.parameterName}"
                  th:value="${_csrf.token}" />
         </form>
-      </sec:authorize>
+      </div>
     </nav>
   </header>
 
